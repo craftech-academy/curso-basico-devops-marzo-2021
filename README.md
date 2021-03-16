@@ -2,10 +2,10 @@
 
 # Simple Web Application
 
-Automates deployment of simple web application
+Esta es una simple aplicación web diseñada en Flask para prácticas del curso de DevOps
 
-## 1. Clone repository
+## 1. Clonar repo
 ```
   $ git clone https://github.com/amrutja26/simple_web_application.git
-  $ cd simple_web_application
+  $ cd curso-basico-devops-marzo-2021
 ```
