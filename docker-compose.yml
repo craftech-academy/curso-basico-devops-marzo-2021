@@ -1,0 +1,39 @@
+version: "3.5"
+
+services:
+
+  web-app:
+    build: .
+    ports:
+      - target: 5000
+        published: 5000
+    networks:
+      - counter-net
+    # volumes:
+    #   - type: templates
+    #     source: counter-vol
+    #     target: /template
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      # - target: 6379
+      #   published: 6379
+    networks:
+      counter-net:
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - target: 8081
+        published: 8081
+    networks:
+      counter-net:
+
+networks:
+  counter-net:
+
+volumes:
+  counter-vol:
