@@ -16,7 +16,7 @@ services:
   redis:
     image: "redis:alpine"
     networks:
-      counter-net:
+      - counter-net
 
   redis-commander:
     image: rediscommander/redis-commander:latest
@@ -26,7 +26,10 @@ services:
       - target: 8081
         published: 5010
     networks:
-      counter-net:
+      - counter-net
 
 networks:
   counter-net:
+
+volumes:
+  redis-data:
