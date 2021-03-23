@@ -30,6 +30,3 @@ services:
 
 networks:
   counter-net:
-
-volumes:
-  redis-data:
