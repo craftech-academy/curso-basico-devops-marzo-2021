@@ -1,0 +1,32 @@
+version: "3.5"
+
+services:
+
+  web-app:
+    build: .
+    restart: always    
+    ports:
+      - target: 5000
+        published: 5050
+    networks:
+      - counter-net
+    volumes:
+      - ./templates:/app/templates
+
+  redis:
+    image: "redis:alpine"
+    networks:
+      - counter-net
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - target: 8081
+        published: 5010
+    networks:
+      - counter-net
+
+networks:
+  counter-net:
