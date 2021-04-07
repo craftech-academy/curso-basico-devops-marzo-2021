@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o kubernetesdeploy/
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: redis-commander
+  name: redis-commander
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: redis-commander
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o kubernetesdeploy/
+        kompose.version: 1.22.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/counter-net: "true"
+        io.kompose.service: redis-commander
+    spec:
+      containers:
+        - env:
+            - name: REDIS_HOSTS
+              value: local:redis:6379
+          image: rediscommander/redis-commander:latest
+          name: redis-commander
+          ports:
+            - containerPort: 8081
+          resources: {}
+      restartPolicy: Always
+status: {}

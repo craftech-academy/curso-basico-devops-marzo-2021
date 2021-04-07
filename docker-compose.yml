@@ -10,8 +10,8 @@ services:
         published: 5050
     networks:
       - counter-net
-    volumes:
-      - ./templates:/app/templates
+    # volumes:
+    #   - ./templates:/app/templates
 
   redis:
     image: "redis:alpine"
