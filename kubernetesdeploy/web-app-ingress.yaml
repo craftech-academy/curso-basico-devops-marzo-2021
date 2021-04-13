@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: web-app
+  annotations:
+    kubernetes.io/ingress.class: "public"
+spec:
+  rules:
+    - host: academy.craftech.io
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: web-app
+              servicePort: 5050
