@@ -1,0 +1,29 @@
+@import '~antd/dist/antd.css';
+
+#root {
+  height: 100%;
+}
+
+#logo {
+  height: 32px;
+  background: rgba(255,255,255,.2);
+  margin: 16px;
+}
+
+#content {
+  margin: 64px 16px 0;
+  padding: 0 50px;
+}
+
+@media only screen and (max-width: 800px) {
+  #content {
+    padding: 0px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  #content {
+    margin: 64px 0px 0;
+    padding: 0px;
+  }
+}

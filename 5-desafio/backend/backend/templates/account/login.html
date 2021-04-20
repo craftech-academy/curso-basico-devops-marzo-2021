@@ -1,0 +1,23 @@
+{% extends "account/base.html" %}{% load bootstrap4 static %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center">Entrar</h1>
+
+<form class="login" method="POST" action="{% url 'account_login' %}" class="form">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  {% buttons %}
+    <button type="submit" class="btn btn-primary">Entrar</button>
+  {% endbuttons %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+</form>
+
+{% endblock %}
