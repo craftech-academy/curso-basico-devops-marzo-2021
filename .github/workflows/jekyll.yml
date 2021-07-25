@@ -8,7 +8,7 @@ env:
   DOCKER_IMAGE: web-app
   K8S_NAMESPACE: web-app-prd
   K8S_DEPLOYMENT: web-app
-  AWS_REGION: us-east-1
+  AWS_REGION: us-east-2
   EKS_CLUSTER_NAME: cluster-devsecops-course
 
 jobs:
