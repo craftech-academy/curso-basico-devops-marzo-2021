@@ -40,4 +40,4 @@ jobs:
         with:
           args: |
             kubectl set image deployment $K8S_DEPLOYMENT -n $K8S_NAMESPACE web-app=beto2323/curso-craftech-2021:${{ github.sha }}
-            kubectl rollout status deployment/$K8S_DEPLOYMENT -n $K8S_NAMESPACE
+            kubectl rollout status deployment/$K8S_DEPLOYMENT -n $K8S_NAMESPACE --watch --timeout=10m
