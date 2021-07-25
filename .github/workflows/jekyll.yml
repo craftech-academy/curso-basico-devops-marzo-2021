@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - main
+env:
+  DOCKER_IMAGE: web-app
+  K8S_NAMESPACE: web-app-prd
+  K8S_DEPLOYMENT: web-app
+  AWS_REGION: us-east-1
+  EKS_CLUSTER_NAME: cluster-devsecops-course
+
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -22,4 +29,15 @@ jobs:
           tag_with_ref: true
           tag_with_sha: true
           tags: latest, ${{ github.sha }}
-
+          
+      - name: Deploy the Docker image to the kubernetes cluster
+        uses: cancue/eks-action@v0.0.2
+        env:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: $AWS_REGION
+          cluster_name: $EKS_CLUSTER_NAME
+        with:
+          args: |
+            kubectl set image deployment $K8S_DEPLOYMENT -n $K8S_NAMESPACE web-app=beto2323/curso-craftech-2021:${{ github.sha }}
+            kubectl rollout status deployment/$K8S_DEPLOYMENT -n $K8S_NAMESPACE
