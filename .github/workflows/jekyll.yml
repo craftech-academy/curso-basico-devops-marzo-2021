@@ -21,6 +21,7 @@ jobs:
 
       - name: Push to Docker Hub
         uses: docker/build-push-action@v1
+        if: ${{ github.ref == 'refs/heads/main' && github.ref == 'refs/heads/dev' }}
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -29,7 +30,7 @@ jobs:
           tag_with_sha: true
           tags: latest, ${{ github.sha }}
           
-      - name: Deploy the Docker image to the kubernetes cluster
+      - name: Deploy the Docker image to the kubernetes cluster dev
         if: ${{ github.ref == 'refs/heads/dev' }}
         uses: cancue/eks-action@v0.0.2
         env:
@@ -41,3 +42,16 @@ jobs:
           args: |
             kubectl set image deployment $K8S_DEPLOYMENT -n web-app-dev web-app=beto2323/curso-craftech-2021:${{ github.sha }}
             kubectl rollout status deployment/$K8S_DEPLOYMENT -n web-app-dev --watch --timeout=10m
+      
+      - name: Deploy the Docker image to the kubernetes cluster prd
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: cancue/eks-action@v0.0.2
+        env:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: $AWS_REGION
+          cluster_name: $EKS_CLUSTER_NAME
+        with:
+          args: |
+            kubectl set image deployment $K8S_DEPLOYMENT -n web-app-prd web-app=beto2323/curso-craftech-2021:${{ github.sha }}
+            kubectl rollout status deployment/$K8S_DEPLOYMENT -n web-app-prd --watch --timeout=10m
