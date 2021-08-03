@@ -39,5 +39,5 @@ jobs:
           cluster_name: $EKS_CLUSTER_NAME
         with:
           args: |
-            kubectl set image deployment $K8S_DEPLOYMENT -n $K8S_NAMESPACE_DEV web-app=beto2323/curso-craftech-2021:${{ github.sha }}
-            kubectl rollout status deployment/$K8S_DEPLOYMENT -n $K8S_NAMESPACE_DEV --watch --timeout=10m
+            kubectl set image deployment $K8S_DEPLOYMENT -n web-app-dev web-app=beto2323/curso-craftech-2021:${{ github.sha }}
+            kubectl rollout status deployment/$K8S_DEPLOYMENT -n web-app-dev --watch --timeout=10m
