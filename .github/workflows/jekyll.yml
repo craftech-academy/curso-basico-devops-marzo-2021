@@ -1,12 +1,11 @@
 name: BUild and Deploy EKS
 
-on:
-  push:
-    branches:
-      - main
+on: push
+
 env:
   DOCKER_IMAGE: web-app
   K8S_NAMESPACE: web-app-prd
+  K8S_NAMESPACE_DEV: web-app-dev
   K8S_DEPLOYMENT: web-app
   AWS_REGION: us-east-2
   EKS_CLUSTER_NAME: cluster-devsecops-course
@@ -31,6 +30,7 @@ jobs:
           tags: latest, ${{ github.sha }}
           
       - name: Deploy the Docker image to the kubernetes cluster
+        if: ${{ github.ref == 'refs/heads/dev' }}
         uses: cancue/eks-action@v0.0.2
         env:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -39,5 +39,5 @@ jobs:
           cluster_name: $EKS_CLUSTER_NAME
         with:
           args: |
-            kubectl set image deployment $K8S_DEPLOYMENT -n $K8S_NAMESPACE web-app=beto2323/curso-craftech-2021:${{ github.sha }}
-            kubectl rollout status deployment/$K8S_DEPLOYMENT -n $K8S_NAMESPACE --watch --timeout=10m
+            kubectl set image deployment $K8S_DEPLOYMENT -n $K8S_NAMESPACE_DEV web-app=beto2323/curso-craftech-2021:${{ github.sha }}
+            kubectl rollout status deployment/$K8S_DEPLOYMENT -n $K8S_NAMESPACE_DEV --watch --timeout=10m
